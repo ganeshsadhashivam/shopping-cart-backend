@@ -32,24 +32,10 @@ connection.once("open", () => {
 //server to use our files
 
 //require the files
-const exerciseRouter = require("./routes/exercise");
-
-const usersRouter = require("./routes/users");
-
-const booksRouter = require("./routes/books");
 
 const productsRouter = require("./routes/products");
 
 //use the files
-
-//when someone goes excercis router it will use this
-app.use("/exercises", exerciseRouter);
-
-//when someone goes users router it will use this
-app.use("/users", usersRouter);
-
-//when someone goes aoi/v1/books router it will use this
-app.use("/api/v1/books", booksRouter);
 
 //when someone goes api/v1/products router it will use this
 app.use("/api/v1/products", productsRouter);
