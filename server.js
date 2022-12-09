@@ -50,3 +50,6 @@ app.set("view engine", "ejs");
 app.listen(port, () => {
   console.log(`Server is running on port:${port}`);
 });
+
+//Export the Express API
+module.exports = app;
