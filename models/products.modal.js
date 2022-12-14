@@ -8,7 +8,7 @@ const productsSchema = new Schema(
     description: { type: String, required: true },
     productImage: { type: String, required: true },
 
-    date: { type: Date, required: true },
+    date: { type: String, required: true },
   },
   {
     timestamps: true,

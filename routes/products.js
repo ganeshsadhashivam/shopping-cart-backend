@@ -68,7 +68,7 @@ router.post("/add", upload.single("productImage"), (req, res) => {
   const name = req.body.name;
   const description = req.body.description;
   const productImage = req.body.productImage;
-  const date = Date.parse(req.body.date);
+  const date = req.body.date;
 
   const newProducts = new Products({
     name,
@@ -101,7 +101,7 @@ router.route("/update/:id").post((req, res) => {
       products.name = req.body.name;
       products.description = req.body.description;
       products.productImage = req.body.productImage;
-      products.date = Date.parse(req.body.date);
+      products.date = req.body.date;
 
       products
         .save()
