@@ -26,7 +26,7 @@ productsRouter.route("/").get((req, res) => {
 productsRouter.post("/add", (req, res) => {
   const { name, description, productImage, date, brand, cost } = req.body;
   if (!name || !description || !productImage || !date || !brand || !cost) {
-    return res.status(400).json({
+    return res.status(404).json({
       message: "name,description,productImage, date,brand and cost is required",
     });
   } else {
@@ -40,7 +40,7 @@ productsRouter.post("/add", (req, res) => {
     });
     newProducts
       .save()
-      .then(() => res.json("Products added!"))
+      .then(() => res.status(201).json("Products added!"))
       .catch((err) => res.status(400).json("Error: " + err));
   }
 });
@@ -49,7 +49,7 @@ productsRouter.post("/add", (req, res) => {
 
 productsRouter.get("/:id", (req, res) => {
   Products.findById(req.params.id)
-    .then((products) => res.json(products))
+    .then((products) => res.status(200).json(products))
     .catch((err) => res.status(404).json({ message: "Products Not Found" }));
 });
 
@@ -67,17 +67,17 @@ productsRouter.put("/update/:id", (req, res) => {
 
       products
         .save()
-        .then(() => res.json("Products updated!"))
+        .then(() => res.status(200).json("Products updated!"))
         .catch((err) => res.status(400).json("Error: " + err));
     })
-    .catch((err) => res.status(400).json({ message: "Product Not Found" }));
+    .catch((err) => res.status(404).json({ message: "Product Not Found" }));
 });
 
 //DELETE
 productsRouter.delete("/:id", (req, res) => {
   Products.findByIdAndDelete(req.params.id)
-    .then(() => res.json("Products deleted."))
-    .catch((err) => res.status(400).json({ message: "Product Not Found" }));
+    .then(() => res.status(200).json("Products deleted."))
+    .catch((err) => res.status(404).json({ message: "Product Not Found" }));
 });
 
 module.exports = productsRouter;
