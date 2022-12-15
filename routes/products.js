@@ -26,12 +26,9 @@ productsRouter.route("/").get((req, res) => {
 productsRouter.post("/add", (req, res) => {
   const { name, description, productImage, date, brand, cost } = req.body;
   if (!name || !description || !productImage || !date || !brand || !cost) {
-    return res
-      .status(400)
-      .json({
-        message:
-          "name,description,productImage, date,brand and cost is required",
-      });
+    return res.status(400).json({
+      message: "name,description,productImage, date,brand and cost is required",
+    });
   } else {
     const newProducts = new Products({
       name,
@@ -56,9 +53,9 @@ productsRouter.get("/:id", (req, res) => {
     .catch((err) => res.status(404).json({ message: "Products Not Found" }));
 });
 
-//POST update
+//PUT update
 
-productsRouter.post("/update/:id", (req, res) => {
+productsRouter.put("/update/:id", (req, res) => {
   Products.findById(req.params.id)
     .then((products) => {
       products.name = req.body.name;
