@@ -48,7 +48,7 @@ productsRouter.post("/add", (req, res) => {
 productsRouter.get("/:id", (req, res) => {
   Products.findById(req.params.id)
     .then((products) => res.json(products))
-    .catch((err) => res.status(400).json({ message: "Products Not Found" }));
+    .catch((err) => res.status(404).json({ message: "Products Not Found" }));
 });
 
 //POST update
