@@ -24,17 +24,22 @@ productsRouter.route("/").get((req, res) => {
 
 //POST Request to add
 productsRouter.post("/add", (req, res) => {
-  const { name, description, productImage, date } = req.body;
-  if (!name || !description || !productImage || !date) {
+  const { name, description, productImage, date, brand, cost } = req.body;
+  if (!name || !description || !productImage || !date || !brand || !cost) {
     return res
       .status(400)
-      .json({ message: "name,description,productImage and date is required" });
+      .json({
+        message:
+          "name,description,productImage, date,brand and cost is required",
+      });
   } else {
     const newProducts = new Products({
       name,
       description,
       productImage,
       date,
+      brand,
+      cost,
     });
     newProducts
       .save()
@@ -60,6 +65,8 @@ productsRouter.post("/update/:id", (req, res) => {
       products.description = req.body.description;
       products.productImage = req.body.productImage;
       products.date = req.body.date;
+      products.brand = req.body.brand;
+      products.cost = req.body.cost;
 
       products
         .save()
