@@ -26,7 +26,7 @@ productsRouter.route("/").get((req, res) => {
 productsRouter.post("/add", (req, res) => {
   const { name, description, productImage, date, brand, cost } = req.body;
   if (!name || !description || !productImage || !date || !brand || !cost) {
-    return res.status(404).json({
+    return res.status(400).json({
       message: "name,description,productImage, date,brand and cost is required",
     });
   } else {
