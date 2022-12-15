@@ -40,7 +40,7 @@ productsRouter.post("/add", (req, res) => {
     });
     newProducts
       .save()
-      .then(() => res.status(201).json("Products added!"))
+      .then((products) => res.status(201).json(products))
       .catch((err) => res.status(400).json("Error: " + err));
   }
 });
@@ -55,7 +55,7 @@ productsRouter.get("/:id", (req, res) => {
 
 //PUT update
 
-productsRouter.put("/update/:id", (req, res) => {
+productsRouter.put("/:id", (req, res) => {
   Products.findById(req.params.id)
     .then((products) => {
       products.name = req.body.name;
@@ -67,7 +67,7 @@ productsRouter.put("/update/:id", (req, res) => {
 
       products
         .save()
-        .then(() => res.status(200).json("Products updated!"))
+        .then((products) => res.status(200).json(products))
         .catch((err) => res.status(400).json("Error: " + err));
     })
     .catch((err) => res.status(404).json({ message: "Product Not Found" }));
