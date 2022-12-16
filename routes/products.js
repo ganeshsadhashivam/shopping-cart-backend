@@ -3,6 +3,7 @@ const { Router } = require("express");
 const Products = require("../models/products.modal");
 
 const productsRouter = Router();
+const mongoose = require("mongoose");
 
 // GET Request
 productsRouter.route("/").get((req, res) => {
@@ -47,37 +48,49 @@ productsRouter.post("/add", (req, res) => {
 
 //GET using ID
 
-productsRouter.get("/:id", (req, res) => {
-  Products.findById(req.params.id)
-    .then((products) => res.status(200).json(products))
-    .catch((err) => res.status(404).json({ message: "Products Not Found" }));
+productsRouter.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const product = await Products.findById(id);
+
+    if (!product) res.status(404).json({ message: "Product does Not Found" });
+    res.status(200).json(product);
+  } catch (error) {
+    if (error instanceof mongoose.CastError) {
+      res.status(404).json({ message: "Invalid ProductId" });
+    }
+  }
 });
 
-//PUT update
+//PUT UPDATE
 
-productsRouter.put("/:id", (req, res) => {
-  Products.findById(req.params.id)
-    .then((products) => {
-      products.name = req.body.name;
-      products.description = req.body.description;
-      products.productImage = req.body.productImage;
-      products.date = req.body.date;
-      products.brand = req.body.brand;
-      products.cost = req.body.cost;
-
-      products
-        .save()
-        .then((products) => res.status(200).json(products))
-        .catch((err) => res.status(400).json("Error: " + err));
-    })
-    .catch((err) => res.status(404).json({ message: "Product Not Found" }));
+productsRouter.put("/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const updates = req.body;
+    const result = await Products.findByIdAndUpdate(id, updates).then(
+      (products) => res.status(200).json(products)
+    );
+  } catch (error) {
+    if (error instanceof mongoose.CastError) {
+      res.status(404).json({ message: "Invalid ProductId" });
+    }
+  }
 });
 
-//DELETE
-productsRouter.delete("/:id", (req, res) => {
-  Products.findByIdAndDelete(req.params.id)
-    .then(() => res.status(200).json("Products deleted."))
-    .catch((err) => res.status(404).json({ message: "Product Not Found" }));
+//DELETE PRODUCT BY ID
+productsRouter.delete("/:id", async (req, res, next) => {
+  const id = req.params.id;
+  try {
+    const product = await Products.findByIdAndDelete(id);
+    console.log(product);
+    if (!product) res.status(404).json({ message: "Product does Not Found" });
+    res.status(200).json({ message: "Product deleted" });
+  } catch (error) {
+    if (error instanceof mongoose.CastError) {
+      res.status(404).json({ message: "Invalid ProductId" });
+    }
+  }
 });
 
 module.exports = productsRouter;

@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 //connect to mongodb
 const mongoose = require("mongoose");
 
+const createError = require("http-errors");
+
 require("dotenv").config();
 
 const app = express();
@@ -48,6 +50,11 @@ app.use(bodyParser.json());
 
 // Set EJS as templating engine
 app.set("view engine", "ejs");
+
+//404 error handler
+// app.use((req, res, next) => {
+//   next(createError(404, "Not Found"));
+// });
 
 app.listen(port, () => {
   console.log(`Server is running on port:${port}`);
