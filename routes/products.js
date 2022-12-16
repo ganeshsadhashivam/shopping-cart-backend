@@ -68,9 +68,10 @@ productsRouter.put("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
     const updates = req.body;
-    const result = await Products.findByIdAndUpdate(id, updates).then(
-      (products) => res.status(200).json(products)
-    );
+    console.log(updates);
+    const options = { new: true };
+    const result = await Products.findByIdAndUpdate(id, updates, options);
+    res.status(200).send(result);
   } catch (error) {
     if (error instanceof mongoose.CastError) {
       res.status(404).json({ message: "Invalid ProductId" });
